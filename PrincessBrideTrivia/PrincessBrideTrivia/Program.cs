@@ -24,7 +24,7 @@ namespace PrincessBrideTrivia
 
         public static string GetPercentCorrect(int numberCorrectAnswers, int numberOfQuestions)
         {
-            return (numberCorrectAnswers / numberOfQuestions * 100) + "%";
+            return (int)Math.Round((double)numberCorrectAnswers / numberOfQuestions * 100) + "%";
         }
 
         public static bool AskQuestion(Question question)
@@ -54,6 +54,8 @@ namespace PrincessBrideTrivia
 
         public static void DisplayQuestion(Question question)
         {
+       
+            //Exception thrown- object not set to instance of object question.Text
             Console.WriteLine("Question: " + question.Text);
             for (int i = 0; i < question.Answers.Length; i++)
             {
@@ -89,6 +91,7 @@ namespace PrincessBrideTrivia
                 question.Answers[1] = answer2;
                 question.Answers[2] = answer3;
                 question.CorrectAnswerIndex = correctAnswerIndex;
+                questions[i] = question; //Added by me
             }
             return questions;
         }
