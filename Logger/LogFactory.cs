@@ -2,10 +2,19 @@
 {
     public class LogFactory
     {
-        public BaseLogger CreateLogger(string className)
+        private static string _Path;
+
+        public BaseLogger CreateLogger()
         {
-            
-            return null;
+            if (_Path == null)
+                return null;
+            BaseLogger log = new FileLogger(_Path, nameof(LogFactory));
+            return log;
+        }
+
+        public static void ConfigureFileLogger(string path) //where is this method getting called?
+        {
+            _Path = path;
         }
     }
 }
