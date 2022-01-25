@@ -2,9 +2,9 @@
 {
     public class LogFactory
     {
-        private static string _Path;
+        private static string? _Path;
 
-        public BaseLogger CreateLogger()
+        public BaseLogger? CreateLogger()
         {
             if (_Path == null)
                 return null;
@@ -12,7 +12,7 @@
             return log;
         }
 
-        public static void ConfigureFileLogger(string path) //where is this method getting called?
+        public void ConfigureFileLogger(string path) //where is this method getting called?
         {
             _Path = path;
         }
