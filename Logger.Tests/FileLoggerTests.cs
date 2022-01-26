@@ -13,7 +13,7 @@ namespace Logger.Tests
         [TestMethod]
         public void Initialize_FileLogger()
         {
-            var path = @"C:\Users\natha\source\repos\Assignment2\Logger.Tests\test.txt";
+            string path = @"C:\Users\natha\source\repos\Assignment2\Logger.Tests\test.txt";
             logger = new FileLogger(path, nameof(FileLoggerTests));
             Assert.IsNotNull(logger);
         }
@@ -21,7 +21,7 @@ namespace Logger.Tests
         [TestMethod]
         public void FileLogger_WriteToFile()
         {
-            var path = @"C:\Users\natha\source\repos\Assignment2\Logger.Tests\test.txt";
+            string path = @"C:\Users\natha\source\repos\Assignment2\Logger.Tests\test.txt";
             if (!File.Exists(path))
             {
                 throw new FileNotFoundException(path);

@@ -8,30 +8,25 @@ namespace Logger
     public class FileLogger : BaseLogger
     {
         public object? ClassName { get; set; }
-        public DateTime? dateTime;
-        public FileStream? file;
-        public StreamWriter? writer;
+        public DateTime? Date;
+        public FileStream? FileStream;
+        public string? Path;
 
 
-        public FileLogger(string? Path, object? Name)
+        public FileLogger(string? path, object? name)
         {
-            ClassName = Name;
-            if (File.Exists(Path))
-            {
-                file = File.Open(Path, FileMode.Append, FileAccess.Write, FileShare.None);
-                writer = new StreamWriter(file);
-            }
+            ClassName = name;
+            Path = path;
         }
         public override void Log(LogLevel logLevel, string message)
         {
-            dateTime = DateTime.Now;
-            string appendLine = dateTime + " " + ClassName + " "
-                + logLevel + " " + message;
-            if (writer != null)
-            {
-                writer.WriteLine(appendLine);
-                Console.WriteLine(appendLine);
-            }
+            Date = DateTime.Now;
+            string appendLine = Date + " " + ClassName + " "
+                + logLevel + " " + message + "\n";
+            StreamWriter writer = File.AppendText(Path);
+            writer.WriteLine(appendLine);
+            Console.WriteLine(appendLine);
+            writer.Close();
         }
     }
 }

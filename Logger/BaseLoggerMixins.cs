@@ -4,29 +4,33 @@ namespace Logger
 {
     public static class BaseLoggerMixins
     {
-        public static void Error(this BaseLogger log, string message, string[] args)
+        public static void Error(this BaseLogger log, string message, params object[] arguments)
         {
-            if (log == null || message == null || message == "" || args == null)
-              throw new ArgumentNullException();
-            log.Log(LogLevel.Error, message);
+            if(log == null)
+                throw new ArgumentNullException(nameof(log));
+            string fullMessage = String.Format(message, arguments);
+            log.Log(LogLevel.Error, fullMessage);
         }
-        public static void Warning(this BaseLogger log, string message, string[] args)
+        public static void Warning(this BaseLogger log, string message, params object[] arguments)
         {
-            if (log == null || message == null || message == "" || args == null)
-                throw new ArgumentNullException();
-            log.Log(LogLevel.Warning, message);
+            if (log == null)
+                throw new ArgumentNullException(nameof(log));
+            string fullMessage = String.Format(message, arguments);
+            log.Log(LogLevel.Warning, fullMessage);
         }
-        public static void Information(this BaseLogger log, string message, string[] args)
+        public static void Information(this BaseLogger log, string message, params object[] arguments)
         {
-            if (log == null || message == null || message == "" || args == null)
-                throw new ArgumentNullException();
-            log.Log(LogLevel.Information, message);
+            if (log == null)
+                throw new ArgumentNullException(nameof(log));
+            string fullMessage = String.Format(message, arguments);
+            log.Log(LogLevel.Information, fullMessage);
         }
-        public static void Debug(this BaseLogger log, string message, string[] args)
+        public static void Debug(this BaseLogger log, string message, params object[] arguments)
         {
-            if (log == null || message == null || message == "" || args == null)
-                throw new ArgumentNullException();
-            log.Log(LogLevel.Debug, message);
+            if (log == null)
+                throw new ArgumentNullException(nameof(log));
+            string fullMessage = String.Format(message, arguments);
+            log.Log(LogLevel.Debug, fullMessage);
         }
 
     }
