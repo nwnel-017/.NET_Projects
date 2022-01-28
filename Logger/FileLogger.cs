@@ -9,11 +9,10 @@ namespace Logger
     {
         public object? ClassName { get; set; }
         public DateTime? Date;
-        public FileStream? FileStream;
         public string? Path;
 
 
-        public FileLogger(string? path, object? name)
+        public FileLogger(string path, object name)
         {
             ClassName = name;
             Path = path;
@@ -23,10 +22,11 @@ namespace Logger
             Date = DateTime.Now;
             string appendLine = Date + " " + ClassName + " "
                 + logLevel + " " + message + "\n";
-            StreamWriter writer = File.AppendText(Path);
-            writer.WriteLine(appendLine);
-            Console.WriteLine(appendLine);
-            writer.Close();
+           
+                StreamWriter writer = File.AppendText(Path);
+                writer.WriteLine(appendLine);
+                Console.WriteLine(appendLine);
+                writer.Close();
         }
     }
 }

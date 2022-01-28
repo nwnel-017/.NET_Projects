@@ -8,34 +8,38 @@ namespace Logger.Tests
     [TestClass]
     public class FileLoggerTests
     {
-        public FileLogger? logger;
         
         [TestMethod]
         public void Initialize_FileLogger()
         {
             string path = @"C:\Users\natha\source\repos\Assignment2\Logger.Tests\test.txt";
-            logger = new FileLogger(path, nameof(FileLoggerTests));
-            Assert.IsNotNull(logger);
+            FileLogger logger = new(path, nameof(FileLoggerTests));
+            Assert.AreEqual(logger.Path, path);
         }
 
         [TestMethod]
-        public void FileLogger_WriteToFile()
+        public void FileLogger_WriteToFile_Success()
         {
             string path = @"C:\Users\natha\source\repos\Assignment2\Logger.Tests\test.txt";
-            if (!File.Exists(path))
-            {
-                throw new FileNotFoundException(path);
-            }
+            FileLogger logger = new(path, nameof(FileLoggerTests));
 
-            if (logger != null)
-            {
-                logger.Log(LogLevel.Debug, "This is a test");
-                if (new FileInfo(path).Length == 0)
-                    throw new Exception();
-            }
-            
+            System.IO.File.WriteAllText(path, string.Empty);
+
+            logger.Log(LogLevel.Debug, "This is a test");
+            if (new FileInfo(path).Length == 0)
+                throw new Exception();
+
         }
 
+        [TestMethod]
+        /*[ExpectedException(typeof(Exception))]*/
+        public void FileLogger_WriteToFile_WithBadPath()
+        {
+            string path = "this is a bad path";
+            FileLogger logger = new(path, nameof(FileLoggerTests));
 
+            logger.Log(LogLevel.Debug, "This shouldn't work");
+
+        }
     }
 }
