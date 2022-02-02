@@ -23,9 +23,9 @@ namespace CanHazFunny
             }
         }
 
-        public bool TellJoke()
+        public string TellJoke()
         {
-            if (JokeService == null || Output == null) { return false; }
+            if (JokeService == null || Output == null) { throw new ArgumentNullException(); }
             
             
             string joke = JokeService.GetJoke();
@@ -37,8 +37,7 @@ namespace CanHazFunny
             }
 
             Output.WriteToConsole(joke);
-            return true;
-                
+            return joke;
 
         }
 

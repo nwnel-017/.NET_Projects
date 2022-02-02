@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace CanHazFunny.Tests
 {
@@ -11,7 +12,15 @@ namespace CanHazFunny.Tests
     public class JesterTests
     {
         [TestMethod]
-        public void InitializeJesterClassSuccess()
+        public void WorkingJokeService_ReturnsJoke()
+        {
+            JokeService jokeService = new();
+            string joke = jokeService.GetJoke();
+            Assert.IsNotNull(joke);
+        }
+        
+        [TestMethod]
+        public void InitializeJesterClass_Success()
         {
             Output output = new();
             JokeService jokeService = new();
@@ -25,21 +34,33 @@ namespace CanHazFunny.Tests
         }
 
         [TestMethod]
-        public void JesterTellJoke_TellJoke_Success()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Jester_TellJoke_BadJokeServiceField_Fail()
         {
-            Jester testJester = new(new Output(), new JokeService());
-            Assert.IsNotNull(testJester);   
-
+            Jester testJester = new(new Output(), null);
+            Assert.IsNotNull(testJester);
+            string joke = testJester.TellJoke();
+            Assert.IsFalse(String.IsNullOrEmpty(joke));
         }
 
         [TestMethod]
-/*        [ExpectedException(typeof(ArgumentException), "error, bad output or jokeservice fields")]
-*/        public void Jester_TellJoke_BadFields_Unsuccessful()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Jester_TellJoke_BadOutputField_Fail()
+        {
+            Jester testJester = new(null, new JokeService());
+            Assert.IsNotNull(testJester);
+            string joke = testJester.TellJoke();
+            Assert.IsFalse(String.IsNullOrEmpty(joke));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Jester_TellJoke_BothFieldsAreBad_Fail()
         {
             Jester testJester = new(null, null);
             Assert.IsNotNull(testJester);
-            bool tellJokeResult = testJester.TellJoke();
-            Assert.IsFalse(tellJokeResult);
+            string joke = testJester.TellJoke();
+            Assert.IsFalse(String.IsNullOrEmpty(joke));
         }
 
         [TestMethod]
@@ -47,8 +68,8 @@ namespace CanHazFunny.Tests
         {
             Jester testJester = new(new Output(), new JokeService());
             Assert.IsNotNull(testJester);
-            bool tellJokeResult = testJester.TellJoke();
-            Assert.IsTrue(tellJokeResult);
+            string joke = testJester.TellJoke();
+            Assert.IsFalse(String.IsNullOrEmpty(joke));
         }
     }
 }
