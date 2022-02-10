@@ -41,7 +41,8 @@
                 return true;
             }
             Node<TValue> currentNode = Next;
-            while(currentNode != this)
+            
+            while(currentNode.Equals(this) == false)
             {
                 if(currentNode.Item != null && currentNode.Item.Equals(item))
                 {
@@ -52,7 +53,7 @@
             return false;
         }
 
-        public override string ToString()
+        public override string? ToString()
         {
             if (Item == null)
             {
