@@ -8,10 +8,12 @@ namespace Assignment
     public class SampleData : ISampleData
     {
         private IEnumerable<string> _CsvRows;
+        private IEnumerable<Person> _People;
 
         public SampleData()
         {
             List<string> rows = new();
+            List<Person> people = new();
             using (var reader = new StreamReader("People.csv"))
             {
                 while (!reader.EndOfStream)
@@ -24,6 +26,24 @@ namespace Assignment
                     rows.Add(line);
                 }
                 _CsvRows = rows;
+
+                foreach(string row in _CsvRows)
+                {
+                    string [] cols = row.Split(',');
+                    string firstName = cols[1];
+                    string lastName = cols[2];
+                    string email = cols[3];
+                    string address = cols[4];
+                    string city = cols[5];
+                    string state = cols[6];
+                    string zip = cols[7];
+
+                    Person person = new(firstName, lastName, new Address(address, city, state, zip), email);
+                    people.Add(person);
+                }
+
+                people.OrderBy(x => x.Address);
+                _People = people;
             }
         }
 
@@ -63,8 +83,7 @@ namespace Assignment
         }
 
         // 4.
-        public IEnumerable<IPerson> People => throw new NotImplementedException();
-
+        public IEnumerable<IPerson> People { get { return _People; } }
         // 5.
         public IEnumerable<(string FirstName, string LastName)> FilterByEmailAddress(
             Predicate<string> filter) => throw new NotImplementedException();
