@@ -8,13 +8,10 @@ namespace Assignment
     public class SampleData : ISampleData
     {
         private IEnumerable<string> _CsvRows;
-        private IEnumerable<Person> _People;
 
         public SampleData()
         {
-            List<string> rows = new();
-            List<Person> people = new();
-            using (var reader = new StreamReader("People.csv"))
+            /*using (var reader = new StreamReader("People.csv"))
             {
                 while (!reader.EndOfStream)
                 {
@@ -44,7 +41,11 @@ namespace Assignment
 
                 people.OrderBy(x => x.Address);
                 _People = people;
-            }
+            }*/
+
+            _CsvRows = File.ReadAllLines("People.csv").Skip(1).ToList();
+
+            /*_People = _CsvRows.Select(x => x.Split(",")).Select(x => new Person(x[1], x[2], new Address(x[4], x[5], x[6], x[7]), x[3])).ToList();*/
         }
 
         // 1.
@@ -54,7 +55,7 @@ namespace Assignment
         public IEnumerable<string> GetUniqueSortedListOfStatesGivenCsvRows()
         {
             List<string> states = new List<string>();
-            foreach(string row in _CsvRows)
+            /*foreach(string row in _CsvRows)
             {
                 string[] array = row.Split(',');
                 states.Add(array[6]);
@@ -63,7 +64,9 @@ namespace Assignment
             {
                 throw new ArgumentNullException();
             }
-            states.OrderBy(x => x).Distinct().ToList();          
+            states.OrderBy(x => x).Distinct().ToList();*/
+
+            states = _CsvRows.Select(x => x.Split(",")).Select(x => x[6]).ToList();
             
             return states;
         }
@@ -83,10 +86,23 @@ namespace Assignment
         }
 
         // 4.
-        public IEnumerable<IPerson> People { get { return _People; } }
+        public IEnumerable<IPerson> People { get { 
+                List<Person> people = _CsvRows.Select(x => x.Split(",")).Select(x => new Person(x[1], x[2], new Address(x[4], x[5], x[6], x[7]), x[3])).ToList();
+                return People;
+            }
+            
+        }
         // 5.
         public IEnumerable<(string FirstName, string LastName)> FilterByEmailAddress(
-            Predicate<string> filter) => throw new NotImplementedException();
+            Predicate<string> filter)
+        {
+            throw new NotImplementedException();
+            /*if(filter == null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+            *//*return _People.Where(filter).ToList();*/
+        }
 
         // 6.
         public string GetAggregateListOfStatesGivenPeopleCollection(
