@@ -44,6 +44,10 @@ namespace Assignment
             }*/
 
             _CsvRows = File.ReadAllLines("People.csv").Skip(1).ToList();
+            if(_CsvRows is null)
+            {
+                throw new ArgumentNullException("Error, reading lines from file went bad"); ;
+            }
 
             /*_People = _CsvRows.Select(x => x.Split(",")).Select(x => new Person(x[1], x[2], new Address(x[4], x[5], x[6], x[7]), x[3])).ToList();*/
         }
@@ -66,7 +70,7 @@ namespace Assignment
             }
             states.OrderBy(x => x).Distinct().ToList();*/
 
-            states = _CsvRows.Select(x => x.Split(",")).Select(x => x[6]).ToList();
+            states = _CsvRows.Select(item => item.Split(",")).Select(item => item[6]).Distinct().ToList();
             
             return states;
         }
@@ -78,34 +82,48 @@ namespace Assignment
 
             string statesString = "";
 
-            foreach(string state in states){
+            /*foreach(string state in states){
                 statesString += state + " ";
-            }
-            
+            }*/
+
+            IEnumerable<string> statesList = GetUniqueSortedListOfStatesGivenCsvRows();
+            statesString = statesList.Aggregate((state1, state2) => state1 + ", " + state2);
             return statesString;
         }
 
         // 4.
         public IEnumerable<IPerson> People { get { 
-                List<Person> people = _CsvRows.Select(x => x.Split(",")).Select(x => new Person(x[1], x[2], new Address(x[4], x[5], x[6], x[7]), x[3])).ToList();
+                IEnumerable<Person> people = _CsvRows.Select(x => x.Split(",")).Select(x => new Person(x[1], x[2], new Address(x[4], x[5], x[6], x[7]), x[3])).ToList();
                 return People;
             }
             
         }
-        // 5.
-        public IEnumerable<(string FirstName, string LastName)> FilterByEmailAddress(
+        // 5. ------> Unfinished, how the frick do I do this
+        public IEnumerable<(string FirstName, string LastName)> FilterByEmailAddress( 
             Predicate<string> filter)
         {
-            throw new NotImplementedException();
-            /*if(filter == null)
+            if(filter == null)
             {
                 throw new ArgumentNullException(nameof(filter));
             }
-            *//*return _People.Where(filter).ToList();*/
+
+            IEnumerable<(string firstName, string lastName)> people = People.Select(person => (person.FirstName, person.LastName));
+            //var query = people.Where(filter).Select(p => new { p.FirstName, p.LastName });
+            //return people.Where(x => filter());
+            return people;
         }
 
         // 6.
         public string GetAggregateListOfStatesGivenPeopleCollection(
-            IEnumerable<IPerson> people) => throw new NotImplementedException();
+            IEnumerable<IPerson> people)
+        {
+            if(people == null)
+            {
+                throw new ArgumentNullException("error, bad people list");
+            }
+
+            IEnumerable<string> statesList = people.Select(person => (person.Address.State)).ToList();
+            return statesList.Aggregate((state1, state2) => state1 + ", " + state2);
+        }
     }
 }
