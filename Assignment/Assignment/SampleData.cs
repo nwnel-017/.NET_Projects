@@ -9,17 +9,14 @@ namespace Assignment
     {
         private List<string> _CsvRows;
 
-        public SampleData()
+        public SampleData() //Path issue needs to be fixed
         {
-            _CsvRows = File.ReadAllLines("People.csv").Skip(1).ToList();
+            string currentPath = Directory.GetCurrentDirectory();
+            _CsvRows = File.ReadAllLines("N:\\Assignment5+6\\Assignment\\Assignment\\People.csv").Skip(1).ToList();
             if (_CsvRows is null)
             {
                 throw new ArgumentNullException("Error, reading lines from file went bad"); ;
             }
-
-            //_FileLines = File.ReadAllLines("People.csv").ToList();
-
-            /*_People = _CsvRows.Select(x => x.Split(",")).Select(x => new Person(x[1], x[2], new Address(x[4], x[5], x[6], x[7]), x[3])).ToList();*/
         }
 
         // 1.
@@ -51,29 +48,29 @@ namespace Assignment
             }
             
         }
-        // 5. ------> Unfinished
+        // 5. ------> Finished?
         public IEnumerable<(string FirstName, string LastName)> FilterByEmailAddress( 
             Predicate<string> filter)
         {
-            string? filterString = null;
+            string? filterString = filter.ToString();
             IEnumerable<(string firstName, string lastName)>? people = null;
             if (filterString == null)
             {
                 throw new ArgumentNullException(nameof(filter));
             }
-            else
-            {
-                filterString = filter.ToString();
-            }
-
             
-                people =
-                    (IEnumerable<(string firstName, string lastName)>)_CsvRows.
-                    Select(item => item.Split(",")).
-                    OrderBy(item => item[3]).
-                    Where(item => item[3].
-                    Contains(char.Parse(filterString))).
-                    Select(item => item[3]).ToList();
+            people =
+                (IEnumerable<(string firstName, string lastName)>)_CsvRows.
+                Select(item => item.Split(",")).
+                OrderBy(item => item[3]).
+                Where(item => item[3].
+                Contains(char.Parse(filterString))).
+                Select(item => item[1] + " " + item[2]).ToList();
+
+            if(people == null)
+            {
+                throw new ArgumentNullException(nameof(people));
+            }
             
 
 /*            IEnumerable<(string firstName, string lastName)> people = People.Select(person => (person.FirstName, person.LastName));
