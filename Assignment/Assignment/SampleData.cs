@@ -55,13 +55,29 @@ namespace Assignment
         public IEnumerable<(string FirstName, string LastName)> FilterByEmailAddress( 
             Predicate<string> filter)
         {
-            if(filter == null)
+            string? filterString = null;
+            IEnumerable<(string firstName, string lastName)>? people = null;
+            if (filterString == null)
             {
                 throw new ArgumentNullException(nameof(filter));
             }
+            else
+            {
+                filterString = filter.ToString();
+            }
 
-            IEnumerable<(string firstName, string lastName)> people = People.Select(person => (person.FirstName, person.LastName));
-            //var people = People.Contains(filter).Select(p => new { p.FirstName, p.LastName });
+            
+                people =
+                    (IEnumerable<(string firstName, string lastName)>)_CsvRows.
+                    Select(item => item.Split(",")).
+                    OrderBy(item => item[3]).
+                    Where(item => item[3].
+                    Contains(char.Parse(filterString))).
+                    Select(item => item[3]).ToList();
+            
+
+/*            IEnumerable<(string firstName, string lastName)> people = People.Select(person => (person.FirstName, person.LastName));
+*/            //var people = People.Contains(filter).Select(p => new { p.FirstName, p.LastName });
             //return people.Where(x => filter());
             return people;
         }
