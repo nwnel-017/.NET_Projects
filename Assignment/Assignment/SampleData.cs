@@ -9,20 +9,32 @@ namespace Assignment
     {
         private List<string> _CsvRows;
 
-        public SampleData() //Path issue needs to be fixed
+        public SampleData(string filePath)
         {
-            string currentPath = Directory.GetCurrentDirectory();
-            _CsvRows = File.ReadAllLines("N:\\Assignment5+6\\Assignment\\Assignment\\People.csv").Skip(1).ToList();
+
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException("Error, file does not exist");
+            }
+
+            try
+            {
+                _CsvRows = File.ReadAllLines(filePath).Skip(1).ToList();
+            }catch (Exception)
+            {
+                throw new ArgumentNullException("could not read from file");
+            }
+            
             if (_CsvRows is null)
             {
                 throw new ArgumentNullException("Error, reading lines from file went bad"); ;
             }
         }
 
-        // 1.
+        // 1.->Finished
         public IEnumerable<string> CsvRows { get { return _CsvRows; } }
 
-        // 2.
+        // 2.->Finished
         public IEnumerable<string> GetUniqueSortedListOfStatesGivenCsvRows()
         {
             List<string> states = new List<string>();
@@ -32,7 +44,7 @@ namespace Assignment
             return states;
         }
 
-        // 3.
+        // 3.->Finished
         public string GetAggregateSortedListOfStatesUsingCsvRows() 
         {
             string statesString = "";
@@ -41,14 +53,14 @@ namespace Assignment
             return statesString;
         }
 
-        // 4.
+        // 4.->Finished
         public IEnumerable<IPerson> People { get { 
-                IEnumerable<Person> people = CsvRows.Select(x => x.Split(",")).Select(x => new Person(x[1], x[2], new Address(x[4], x[5], x[6], x[7]), x[3])).ToList();
+                IEnumerable<Person> people = CsvRows.Select(item => item.Split(",")).Select(item => new Person(item[1], item[2], new Address(item[4], item[5], item[6], item[7]), item[3])).ToList();
                 return People;
             }
             
         }
-        // 5. ------> Finished?
+        // 5. -> Finished?
         public IEnumerable<(string FirstName, string LastName)> FilterByEmailAddress( 
             Predicate<string> filter)
         {
@@ -71,15 +83,11 @@ namespace Assignment
             {
                 throw new ArgumentNullException(nameof(people));
             }
-            
-
-/*            IEnumerable<(string firstName, string lastName)> people = People.Select(person => (person.FirstName, person.LastName));
-*/            //var people = People.Contains(filter).Select(p => new { p.FirstName, p.LastName });
-            //return people.Where(x => filter());
+                      
             return people;
         }
 
-        // 6.
+        // 6.->Finished
         public string GetAggregateListOfStatesGivenPeopleCollection(
             IEnumerable<IPerson> people)
         {

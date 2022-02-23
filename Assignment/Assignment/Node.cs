@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Assignment
 {
-    public class Node<TValue>//: IEnumerable<Node<TValue>>, IEnumerable
+    public class Node<TValue>: IEnumerable<TValue>, IEnumerable
     {
         public TValue Item { get; set; }
         public Node<TValue> Next { get; private set; }
@@ -30,10 +31,27 @@ namespace Assignment
             Next = newNode;
         }
 
-       /* public IEnumerator<Node<TValue>> GetEnumerator()
+        public IEnumerator<TValue> GetEnumerator()
         {
-            Node<TValue> node = this;
-        }*/
+            Node<TValue> cur = this;
+
+            while(cur.Next != this)
+            {
+                yield return cur.Item;
+                cur = cur.Next;
+            }
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            yield return GetEnumerator();
+        }
+
+        public IEnumerable<TValue> ChildItems(int maximum)
+        {
+            throw new NotImplementedException();
+        }
 
         public void Clear()
         {
