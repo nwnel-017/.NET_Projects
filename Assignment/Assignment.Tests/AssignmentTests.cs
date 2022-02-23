@@ -116,7 +116,7 @@ namespace Assignment.Tests
             Assert.IsNotNull(sampleData.People);
         }
 
-        [TestMethod]
+        [TestMethod]//Why is test not running
         public void GetPeople_ReturnsListOfCorrectLength_Success()
         {
             SampleData sampleData = new(FilePath);
@@ -124,16 +124,16 @@ namespace Assignment.Tests
             Assert.IsNotNull(sampleData);
             Assert.IsNotNull(sampleData.People);
 
-            Assert.AreEqual(sampleData.People.Count, sampleData.CsvRows.Count);
+            Assert.IsTrue(sampleData.People.Count() == sampleData.CsvRows.Count());
         }
 
-        /* [TestMethod]//Not finished
-         public void FilterByEmailAddress_IncorrectFilter_Failure() //Fix this
-         {
-             SampleData sampleData = new(FilePath);
-             //Predicate<string>? predicate = "bad";
-             //IEnumerable<(string FirstName, string LastName)> filteredList = sampleData.FilterByEmailAddress(predicate);
-         }*/
+       /* [TestMethod]//Not finished
+        public void FilterByEmailAddress_IncorrectFilter_Failure() //Fix this
+        {
+            SampleData sampleData = new(FilePath);
+            //Predicate<string>? predicate = "bad";
+            //IEnumerable<(string FirstName, string LastName)> filteredList = sampleData.FilterByEmailAddress(predicate);
+        }*/
 
 
     }
