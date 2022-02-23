@@ -40,7 +40,7 @@ namespace Assignment
             List<string> states = new List<string>();
             
             states = CsvRows.Select(item => item.Split(",")).OrderBy(item => item[6]).Select(item => item[6]).Distinct().ToList();
-            
+            states.Zip(states, (current, next) => string.Compare(current, next) <= 0).All(x => x);
             return states;
         }
 
@@ -64,7 +64,7 @@ namespace Assignment
         public IEnumerable<(string FirstName, string LastName)> FilterByEmailAddress( 
             Predicate<string> filter)
         {
-            string? filterString = filter.ToString();
+            /*string? filterString = filter.ToString();
             IEnumerable<(string firstName, string lastName)>? people = null;
             if (filterString == null)
             {
@@ -84,7 +84,13 @@ namespace Assignment
                 throw new ArgumentNullException(nameof(people));
             }
                       
-            return people;
+            return people;*/
+            List<IPerson> people = People.ToList();
+            IEnumerable<(string FirstName, string LastName)> results = 
+                People.ToList().FindAll(person => filter(person.EmailAddress)).
+                Select(person => (person.FirstName, person.LastName));
+
+            return results;
         }
 
         // 6.->Finished
