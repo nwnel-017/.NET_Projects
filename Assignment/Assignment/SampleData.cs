@@ -12,9 +12,13 @@ namespace Assignment
         public SampleData(string filePath)
         {
 
-            if (!File.Exists(filePath))
+            if (!File.Exists(filePath))//case if file does not exist
             {
                 throw new FileNotFoundException("Error, file does not exist");
+            }
+            if (new FileInfo(filePath).Length == 0)//case if file passed in is empty
+            {
+                throw new ArgumentNullException("Error, file is empty");
             }
 
             try
@@ -66,27 +70,6 @@ namespace Assignment
         public IEnumerable<(string FirstName, string LastName)> FilterByEmailAddress( 
             Predicate<string> filter)
         {
-            /*string? filterString = filter.ToString();
-            IEnumerable<(string firstName, string lastName)>? people = null;
-            if (filterString == null)
-            {
-                throw new ArgumentNullException(nameof(filter));
-            }
-            
-            people =
-                (IEnumerable<(string firstName, string lastName)>)_CsvRows.
-                Select(item => item.Split(",")).
-                OrderBy(item => item[3]).
-                Where(item => item[3].
-                Contains(char.Parse(filterString))).
-                Select(item => item[1] + " " + item[2]).ToList();
-
-            if(people == null)
-            {
-                throw new ArgumentNullException(nameof(people));
-            }
-                      
-            return people;*/
             List<IPerson> people = People.ToList();
             IEnumerable<(string FirstName, string LastName)> results = 
                 People.ToList().FindAll(person => filter(person.EmailAddress)).

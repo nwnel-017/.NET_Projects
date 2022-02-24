@@ -7,26 +7,27 @@ using System;
 namespace Assignment.Tests
 {
     [TestClass]
-    public class AssignmentTests
+    public class SampleDataTests
     {
         public string FilePath = @"N:\\Assignment5+6\\Assignment\\Assignment\\People.csv";
-        //public string FilePath = AppDomain.CurrentDomain.BaseDirectory + "People.csv";
+        //public string FilePath = AppDomain.CurrentDomain.BaseDirectory + "People.csv";--> Why isnt this working
 
         [TestMethod]//Test passed
         [ExpectedException(typeof(FileNotFoundException))]
         public void InitializeSampleDataClass_WithBadPath_Failure()//Works as expected
         {
             SampleData sampleData = new("this is not a valid path");
+            Assert.IsNull(sampleData);
         }
 
-        [TestMethod]//Test not passing 
-        [ExpectedException(typeof(Exception))]
+        [TestMethod]//Test passed
+        [ExpectedException(typeof(ArgumentNullException))]
         public void InitializeSampleDataClass_WithEmptyFile_Failure()
         {
-            string path = ".\\blankfile.csv";
+            string path = "blankfile.csv";
             File.WriteAllText(path, "");
-            SampleData sampleData = new("EmptyFile.csv");
-            File.Delete("EmptyFile.csv");
+            SampleData sampleData = new(path);
+            File.Delete(path);
         }
 
         [TestMethod]//Test passed
@@ -38,7 +39,7 @@ namespace Assignment.Tests
         }
 
         [TestMethod]//Test passed
-        public void GetCsvRows_ReturnsSuccessfully()//Test passed
+        public void GetCsvRows_ReturnsSuccessfully()
         {
             SampleData sampleData = new(FilePath);
             string csvFile = FilePath;
@@ -75,44 +76,47 @@ namespace Assignment.Tests
             Assert.IsTrue(states.Distinct().Count() == states.Count());//make sure states list is unique
         }
 
-        [TestMethod]//Not done
+        [TestMethod]//Test passed
         public void Part2_GetUniqueSortedListOfState_StatesAreSorted_Success()
         {
             SampleData sampleData = new(FilePath);
-            IEnumerable<string> states = sampleData.GetUniqueSortedListOfStatesGivenCsvRows();
+            IEnumerable<string> result = sampleData.GetUniqueSortedListOfStatesGivenCsvRows();
+            IEnumerable<string> expected = sampleData.CsvRows.Select(item => item.Split(',')).Select(column => column[6]).OrderBy(state => state).Distinct();
 
-            string previous = states.First();
-            IEnumerable<bool> results = states.Select(state =>
-                {
-                    if (state.Equals(previous)) {return false; }
-                    if (previous.CompareTo(state) > 0) { return true; }
-                    else { return false; }
-                }).ToList();
-
-            
-           /* bool result = true;
-            result = states.ForEach((state1, state2) => string.Compare(state1, state2) <= 0);
-            Assert.IsTrue(result);*/
+            Assert.IsTrue(expected.SequenceEqual(result));
         }
 
-        [TestMethod]
+        [TestMethod]//Test passes
         public void Part2_GetUniqueSortedListOfStatesGivenCsvRows_UsingHardCodedAddressed_Success()
         {
-            SampleData sampleData = new(FilePath);
-            Assert.IsNotNull(sampleData);
+            string[] hardCodedData = {
+                "",
+                "1,Nate,Nelson,natenelson@gmail.com,1111 N. Eastern St., Spokane,WA,99205",
+                "1,Danny,Allen,dannyallen@gmail.com,2222 N. Eastern St., Spokane,WA,99205",
+                "1,Bryan,Wais,bryanwais@gmail.com,3333 N. Eastern St., Spokane,WA,99205",
+            };
+
+            string tempFilePath = "TemporaryFile.csv";
+            File.WriteAllLines(tempFilePath, hardCodedData);
+
+            SampleData sampleData = new(tempFilePath);
+
+            IEnumerable<string> spokaneAddresses = sampleData.GetUniqueSortedListOfStatesGivenCsvRows();
+            Assert.AreEqual(1, spokaneAddresses.Count());
+            File.Delete(tempFilePath);
         }
 
         [TestMethod]//Test passed
         public void Part3_GetAggregatedSortedListOfStatesUsingCsvRows_ReturnsActuallist_Success()
         {
             SampleData sampleData = new(FilePath);
-            string? listOfStates = sampleData.GetAggregateSortedListOfStatesUsingCsvRows();//method to test
+            string? listOfStates = sampleData.GetAggregateSortedListOfStatesUsingCsvRows();
 
             Assert.IsNotNull(listOfStates);//states are not null
         }
 
         [TestMethod]//Test passed
-        public void Part3_GetAggregateSortedListOfStatesUsingCsvRows_IsCorrectLength_Success() //Fix this test---> line 49
+        public void Part3_GetAggregateSortedListOfStatesUsingCsvRows_IsCorrectLength_Success()
         {
             SampleData sampleData = new(FilePath);
             string listOfStates = sampleData.GetAggregateSortedListOfStatesUsingCsvRows();//method to test
@@ -129,41 +133,42 @@ namespace Assignment.Tests
             Assert.AreEqual(listOfStates.Split(", ").ToList().Distinct().Count(), listOfStates.Split(", ").Length);//states are not unique??
         }
 
-        /* [TestMethod]//Test passed
-         public void Part4_GetPeople_ReturnsList_Success()
-         {
-             SampleData sampleData = new(FilePath);
+        /*[TestMethod]//Test passed
+        public void Part4_GetPeople_ReturnsList_Success()
+        {
+            SampleData sampleData = new(FilePath);
 
-             Assert.IsNotNull(sampleData);
-             Assert.IsNotNull(sampleData.People);
-         }
+            Assert.IsNotNull(sampleData);
+            Assert.IsNotNull(sampleData.People);
+        }*/
 
-         [TestMethod]//Why is test not running
-         public void Part4_GetPeople_ReturnsListOfCorrectLength_Success()
-         {
-             SampleData sampleData = new(FilePath);
+        /*  [TestMethod]//Why is test not running
+          public void Part4_GetPeople_ReturnsListOfCorrectLength_Success()
+          {
+              SampleData sampleData = new(FilePath);
 
-             Assert.IsNotNull(sampleData);
-             Assert.IsNotNull(sampleData.People);
+              Assert.IsNotNull(sampleData);
+              Assert.IsNotNull(sampleData.People);
 
-             Assert.IsTrue(sampleData.People.Count() == sampleData.CsvRows.Count());
-         }
+              Assert.IsTrue(sampleData.People.Count() == sampleData.CsvRows.Count());
+          }*/
 
-         [TestMethod]//Test finished-> but not running for some reason
-         public void Part5_FilterByEmailAddress_CorrectFilter_Success() //Fix this
-         {
-             SampleData sampleData = new(FilePath);
-             Predicate<string> email = email => email.Contains("stanford");
-             IEnumerable<(string FirstName, string LastName)> result = sampleData.FilterByEmailAddress(email);
-             Assert.IsNotNull(result);
+/*
+        [TestMethod]//Test finished-> but not running for some reason
+        public void Part5_FilterByEmailAddress_CorrectFilter_Success() //Fix this
+        {
+            SampleData sampleData = new(FilePath);
+            Predicate<string> email = email => email.Contains("stanford");
+            IEnumerable<(string FirstName, string LastName)> result = sampleData.FilterByEmailAddress(email);
+            Assert.IsNotNull(result);
 
-             Assert.AreEqual("Sancho", result.First().FirstName);
-             Assert.AreEqual("Mahony", result.First().LastName);
+            Assert.AreEqual("Sancho", result.First().FirstName);
+            Assert.AreEqual("Mahony", result.First().LastName);
 
-             Assert.AreEqual("Fayette", result.Last().FirstName);
-             Assert.AreEqual("Dougherty", result.Last().LastName);
-         }*/
-
+            Assert.AreEqual("Fayette", result.Last().FirstName);
+            Assert.AreEqual("Dougherty", result.Last().LastName);
+        }
+*/
 
     }
 }
