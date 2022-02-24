@@ -55,7 +55,9 @@ namespace Assignment
 
         // 4.->Finished
         public IEnumerable<IPerson> People { get { 
-                IEnumerable<Person> people = CsvRows.Select(item => item.Split(",")).Select(item => new Person(item[1], item[2], new Address(item[4], item[5], item[6], item[7]), item[3])).ToList();
+                IEnumerable<IPerson> people = 
+                    CsvRows.Select(line => line.Split(",")).OrderBy(line => line[5]).ThenBy(line => line[6]).ThenBy(line => line[7])
+                    .Select(item => new Person(item[1], item[2], new Address(item[4], item[5], item[6], item[7]), item[3])).ToList();
                 return People;
             }
             

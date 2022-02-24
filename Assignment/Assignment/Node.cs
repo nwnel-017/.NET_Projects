@@ -50,7 +50,14 @@ namespace Assignment
 
         public IEnumerable<TValue> ChildItems(int maximum)
         {
-            throw new NotImplementedException();
+            Node<TValue> cur = this;
+            int count = 0;
+            while (count < maximum)
+            {
+                yield return cur.Item;
+                cur = cur.Next;
+                count++;
+            }
         }
 
         public void Clear()
