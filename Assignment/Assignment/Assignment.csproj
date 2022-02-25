@@ -3,5 +3,13 @@
   <ItemGroup>
     <ProjectReference Include="..\Assignment.Interfaces\Assignment.Interfaces.csproj" />
   </ItemGroup>
+	<PropertyGroup>
+			  <Nullable>enable</Nullable>
+			<TargetFramework>net6.0</TargetFramework>
+			<LangVersion>10.0</LangVersion>			
+			<CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>	
+			<EnableNETAnalyzers>true</EnableNETAnalyzers>
+			<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	</PropertyGroup>
 
 </Project>

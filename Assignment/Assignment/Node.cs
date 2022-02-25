@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Assignment
 {
-    public class Node<TValue>: IEnumerable<TValue>, IEnumerable
+    public class Node<TValue>: IEnumerable<Node<TValue>>, IEnumerable
     {
         public TValue Item { get; set; }
         public Node<TValue> Next { get; private set; }
@@ -31,30 +31,29 @@ namespace Assignment
             Next = newNode;
         }
 
-        public IEnumerator<TValue> GetEnumerator()
+        public IEnumerator<Node<TValue>> GetEnumerator()
         {
             Node<TValue> cur = this;
 
             while(cur.Next != this)
             {
-                yield return cur.Item;
+                yield return cur;
                 cur = cur.Next;
             }
-            throw new NotImplementedException();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            yield return GetEnumerator();
+            return GetEnumerator();
         }
 
-        public IEnumerable<TValue> ChildItems(int maximum)
+        public IEnumerable<Node<TValue>> ChildItems(int maximum)
         {
             Node<TValue> cur = this;
             int count = 0;
             while (count < maximum)
             {
-                yield return cur.Item;
+                yield return cur;
                 cur = cur.Next;
                 count++;
             }

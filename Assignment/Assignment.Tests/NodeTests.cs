@@ -120,5 +120,31 @@ namespace Assignment.Tests
             Assert.IsTrue(node.Exists("3"));
             Assert.IsTrue(node.Exists("4"));
         }
+
+        [TestMethod]//Test passed
+        public void Part7_ChildItemsReturn_Success()
+        {
+            Node<string> myNode = new("First value");
+            myNode.Append("Second value");
+            myNode.Append("Third value");
+
+            IEnumerable<Node<string>> result = myNode.ChildItems(5);
+
+            Assert.AreEqual(5, result.Count());
+        }
+
+        [TestMethod]
+        public void Part7_GetEnumerator_ReturnsAllNodes_Success()
+        {
+            Node<int> myNode = new(1);
+            myNode.Append(2);
+            myNode.Append(3);
+            myNode.Append(4);
+
+            foreach(Node<int> node in myNode)//Test to see if Nodes can be incremented through as collection
+            {
+                Assert.IsNotNull(node.Item);
+            }
+        }
     }
 }

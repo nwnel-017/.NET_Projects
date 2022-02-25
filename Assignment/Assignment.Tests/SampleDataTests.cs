@@ -6,15 +6,23 @@ using System;
 
 namespace Assignment.Tests
 {
+    //All of my tests were running but out of nowhere half of them stopped working because my "file doesnt exist"\
+    //i wasnt sure what to do because a lot of my tests still ran even though others were saying my filepath was invalid
+    //i used a global variable for filepath so im thinking there is something wrong with my machine
     [TestClass]
     public class SampleDataTests
     {
-        public string FilePath = @"N:\\Assignment5+6\\Assignment\\Assignment\\People.csv";
-        //public string FilePath = AppDomain.CurrentDomain.BaseDirectory + "People.csv";--> Why isnt this working
+        public string FilePath = @"N:\\Assignment5+6\\Assignment\\Assignment\\People.csv";//I understand this isn't the right way
+        //because the filepath on your machine is different--> i tried using the statement below but it crashed on my system
+        //every time--> my machine was being unpredictable and doing different things every time i ran the program, i think it was
+        //a problem with the computer
+
+
+        //public string FilePath = AppDomain.CurrentDomain.BaseDirectory + "People.csv";//--> Why isnt this working
 
         [TestMethod]//Test passed
         [ExpectedException(typeof(FileNotFoundException))]
-        public void InitializeSampleDataClass_WithBadPath_Failure()//Works as expected
+        public void InitializeSampleDataClass_WithBadPath_Failure()
         {
             SampleData sampleData = new("this is not a valid path");
             Assert.IsNull(sampleData);
@@ -112,7 +120,7 @@ namespace Assignment.Tests
             SampleData sampleData = new(FilePath);
             string? listOfStates = sampleData.GetAggregateSortedListOfStatesUsingCsvRows();
 
-            Assert.IsNotNull(listOfStates);//states are not null
+            Assert.IsNotNull(listOfStates);
         }
 
         [TestMethod]//Test passed
@@ -130,30 +138,30 @@ namespace Assignment.Tests
         {
             SampleData sampleData = new(FilePath);
             string listOfStates = sampleData.GetAggregateSortedListOfStatesUsingCsvRows();//method to test
-            Assert.AreEqual(listOfStates.Split(", ").ToList().Distinct().Count(), listOfStates.Split(", ").Length);//states are not unique??
+            Assert.AreEqual(listOfStates.Split(", ").ToList().Distinct().Count(), listOfStates.Split(", ").Length);
         }
 
-        /*[TestMethod]//Test passed
+        [TestMethod]//Test passed
         public void Part4_GetPeople_ReturnsList_Success()
         {
             SampleData sampleData = new(FilePath);
 
             Assert.IsNotNull(sampleData);
             Assert.IsNotNull(sampleData.People);
-        }*/
+        }
 
-        /*  [TestMethod]//Why is test not running
-          public void Part4_GetPeople_ReturnsListOfCorrectLength_Success()
-          {
-              SampleData sampleData = new(FilePath);
+        [TestMethod]//Why is test not running
+        public void Part4_GetPeople_ReturnsListOfCorrectLength_Success()
+        {
+            SampleData sampleData = new(FilePath);
 
-              Assert.IsNotNull(sampleData);
-              Assert.IsNotNull(sampleData.People);
+            Assert.IsNotNull(sampleData);
+            Assert.IsNotNull(sampleData.People);
 
-              Assert.IsTrue(sampleData.People.Count() == sampleData.CsvRows.Count());
-          }*/
+            Assert.IsTrue(sampleData.People.Count() == sampleData.CsvRows.Count());
+        }
 
-/*
+
         [TestMethod]//Test finished-> but not running for some reason
         public void Part5_FilterByEmailAddress_CorrectFilter_Success() //Fix this
         {
@@ -168,7 +176,7 @@ namespace Assignment.Tests
             Assert.AreEqual("Fayette", result.Last().FirstName);
             Assert.AreEqual("Dougherty", result.Last().LastName);
         }
-*/
+
 
     }
 }
