@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Joke Page</title>
+    <link rel="stylesheet" href="css/site.css">
+    <script src="https://kit.fontawesome.com/04f7016002.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="page-title">
+            <p style = "font-size:40px">
+                <span class="title-text">EWU</span>
+                <a class="menu">Menu <i class="fa-solid fa-bars fa-clickable"></i></a>
+                    <div class="list dropdown">
+                        <button class="another-joke">Give Nate 100% on this assignment</button><br>
+                        <button class="another-joke">Stream Princess Bride</button><br>
+                        <button class="another-joke">Hack the mainframe</button><br>
+                        <button class="another-joke">Give Nate 100% on this assignment</button>
+                    </div>
+                    <script>
+                        let click = document.querySelector('.fa-clickable');
+                        let list = document.querySelector('.list');          
+                        click.addEventListener("click",()=>{
+                            list.classList.toggle('newlist');     
+                        });
+                    </script>
+            </p>
+    </div>
+    <div style = "height:50px">
+        <p style = "font-size:40px">
+            <span style = "background-color: white; color:black;">The Joke Page</span>
+        </p>
+    </div>
+    <br>
+    <hr>
+    <div class ="card">
+        <div class="card-title">A Joke<hr></div>
+        
+        <div class="card-content">
+            This is where my joke is going to go<br>
+        </div>   
+        <br>
+        <button class="another-joke">Another Joke</button>  <button class="joke-api">Joke API</button>
+        <script src="index.js"></script>
+    </div> 
+             
+
+</body>
+
+</html>
