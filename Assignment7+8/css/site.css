@@ -1,0 +1,113 @@
+body
+{
+    margin:auto;
+    padding: 0px;
+    height:50%;
+    width:70%;
+}
+
+span
+{
+    height:50px; 
+    width:70%; background-color: black; 
+    color: white;
+}
+
+.card 
+{
+    /* Add shadows to create the "card" effect */
+    /* border-radius: 25px;
+    border: 1px solid;
+    height: 80%;
+    background: linear-gradient(to-bottom, lightgrey 0%, lightgrey 25%, white 20%);
+    font-size: 30px;
+
+    padding: 10px;  
+    background-clip: border-box; */
+    border: 1px solid black;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .page-title
+  {
+    height:50px; 
+    width:100%; 
+    background-color: black; 
+  }
+
+  .title-text
+  {
+    font-size: 40px;
+    color: red;
+  }
+
+  .card-title
+  {
+    background-color: lightgray;
+    margin: 0;
+    padding-left: 10px;
+    font-size: 30px;
+  }
+
+  .card-content
+  {
+    padding-left: 10px;
+    border-bottom: 2px solid grey;
+    padding-bottom: 20px;
+    background-color: white;
+    font-size: 20px;
+  }
+
+  .padded 
+  {
+    padding: 10px;  
+    background-clip: border-box;
+  }
+
+  .another-joke
+  {
+    height:50px;
+    width:100px;
+    background-color: lightblue;
+  }
+
+  .joke-api
+  {
+    height:50px;
+    width:100px;
+    padding:10px
+  }
+
+  .menu
+  {
+    color: white;
+    float: right;
+    padding-top: 5px;
+  }
+
+  .dropdown
+  {
+    border: 1px solid black;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .fa-clickable
+  {
+    cursor:pointer;
+    outline:none;
+  }
+
+  .list {
+    float:right;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: 0.3s;
+  }
+
+  .newlist {
+
+      transform: scaleY(1);
+
+  }
