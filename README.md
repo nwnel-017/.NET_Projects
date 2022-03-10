@@ -36,7 +36,7 @@ Just like when working as a software developer, the web will be your primary sou
 
 ### Create a card with `<div>`s and CSS
 - Create a card from `<div>`s ✔
-  - The card should have a header, body, and footer ❌✔
+  - The card should have a header, body, and footer ✔
   - The CSS for this should be in the CSS file and work easily for another card. ✔
 
 ### Show jokes on the card
