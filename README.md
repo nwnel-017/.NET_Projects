@@ -62,10 +62,10 @@ Do the following:
 
 ## Fundamentals
 - Ensure that:
-  - This is built with raw HTML, CSS, and JavaScript, no external libraries aside from Axios and a font library ❌✔
-  - The index.html file should work when opened from a file explorer ❌✔
-  - Keep all files in appropriate folders ❌✔
-  - Have warning free HTML, CSS, and JavaScript ❌✔
+  - This is built with raw HTML, CSS, and JavaScript, no external libraries aside from Axios and a font library ✔
+  - The index.html file should work when opened from a file explorer ✔
+  - Keep all files in appropriate folders ✔
+  - Have warning free HTML, CSS, and JavaScript ✔
   - Use as little css as possible ❌✔
   - No inline CSS ❌✔
   - Validate HTML with: https://validator.w3.org/nu/#textarea (or similar) ❌✔
