@@ -47,7 +47,7 @@ Just like when working as a software developer, the web will be your primary sou
   - There should be a button to get another joke ✔
   - There should be `<a>` tag that links to the joke api documentation page ✔
     - This `<a>` should be manually styled as a button ❌✔
-- Buttons should have a background that is a gradient ❌✔
+- Buttons should have a background that is a gradient ✔
 - All buttons (even the `<a>` that you made into a button) should have a hover effect  ❌✔
 
 ## Extra Credit
