@@ -24,13 +24,13 @@ Just like when working as a software developer, the web will be your primary sou
   - With an index.js file in a js folder ✔
   - And a site.css file in a css folder (along with other css files) ✔
 - There should be a `<head>`
-  - With a favicon ❌✔
+  - With a favicon ✔
   - And a title ✔
 - The `<body>` should use the middle 70% of the page ✔
 
 ### Menu Bar
 - The page should have a title/menu bar ✔
-  - Use Font Awesome for the hamburger icon (https://fontawesome.com/start) ❌✔ 
+  - Use Font Awesome for the hamburger icon (https://fontawesome.com/start) ✔ 
   - When clicked, the menu should appear under it ✔
   - The menu should have four buttons with creative names (the buttons don't need to do anything) ✔
 
