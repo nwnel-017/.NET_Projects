@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Joke Page</title>
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <script src="https://kit.fontawesome.com/04f7016002.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div class="top-bar">
+                <span class="top-bar-text">EWU</span>
+                <a class="menu">Menu <i class="fa-solid fa-bars fa-clickable"></i></a>
+                    <div class="list dropdown" >
+                        <button class="dropdown-card">
+                            <a href="https://en.wikipedia.org/wiki/PS5">
+                                Best Console, hands down</a></button><br>
+                        <button class="dropdown-card">
+                            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley">Stream Princess Bride</a></button><br>
+                        <button class="dropdown-card">
+                            <a href="http://notpron.com/">Hardest Internet Puzzle</a></button><br>
+                        <button class="dropdown-card" onclick ="alert('Did you not read the button?')">
+                            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley">
+                                Do not press this button</a></button>
+                    </div>
+                    <script>
+                        let click = document.querySelector('.fa-clickable');
+                        let list = document.querySelector('.list');          
+                        click.addEventListener("click",()=>{
+                            list.classList.toggle('newlist');     
+                        });
+                    </script>
+    </div>
+    <div style = "height:50px">
+        <p style = "font-size:40px">
+            <span style = "background-color: white; color:black;">The Joke Page</span>
+        </p>
+    </div>
+    <br>
+    <hr>
+    <div class ="card">
+        <div class="card-header">A Joke</div>
+        
+        <div class="card-body">
+            <div class = "joke">This is where my joke is going to go</div>
+            <div class= "punchline"></div>
+        </div>   
+        
+        <div class="card-footer">
+            <button class="card-gradient" onclick="getJoke()">Another Joke</button> 
+            <a href="https://v2.jokeapi.dev/joke/Programming" class="joke-api">Joke API</a>
+        </div>
+        <script src="js/index.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    </div> 
+             
+
+</body>
+
+</html>
