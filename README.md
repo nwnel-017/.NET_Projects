@@ -25,6 +25,7 @@ Previously Assigned
 - Chapter 22: Thread Synchronization
 
 ## Instructions
+**Don't use thread.sleep()-> instead use task.delay()
 
 1. Implement `PingProcess`' `public Task<PingResult> RunTaskAsync(string hostNameOrAddress)` ❌✔
    - First implement `public void RunTaskAsync_Success()` test method to test `PingProcess.RunTaskAsync()` using `"localhost"`. ❌✔
