@@ -29,17 +29,13 @@ public class PingProcess
     {
         return Task.Run(
             () =>
-                RunAsync(hostNameOrAddress, new CancellationToken())
+                Run(hostNameOrAddress)
             );
     }
 //2
     async public Task<PingResult> RunAsync(
         string hostNameOrAddress, CancellationToken cancellationToken = default)
     {
-        /* Task task = null!;
-         await task;
-         throw new NotImplementedException();*/
-
         cancellationToken.ThrowIfCancellationRequested();
 
         Task<PingResult> result = Task.Run(
