@@ -27,18 +27,11 @@ public class PingProcess
 //1
     public Task<PingResult> RunTaskAsync(string hostNameOrAddress)
     {
-<<<<<<< HEAD
-        return Task<PingResult>.Run(
-            () => Run(hostNameOrAddress)
-        );
-=======
         Task<PingResult> task = Task.Run(
             () =>
             {
-                Run(hostNameOrAddress, new CancellationToken());
+                RunAsync(hostNameOrAddress, new CancellationToken());
             });
-        return task.Result.ExitCode;
->>>>>>> 03be9658ada5d621ec890d3e78764e551fa97134
     }
 //2
     async public Task<PingResult> RunAsync(
