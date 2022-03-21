@@ -30,7 +30,7 @@ Previously Assigned
 1. Implement `PingProcess`' `public Task<PingResult> RunTaskAsync(string hostNameOrAddress)` ✔
    - First implement `public void RunTaskAsync_Success()` test method to test `PingProcess.RunTaskAsync()` using `"localhost"`. 
    - Do NOT use async/await in this implementation. ✔
-2. Implement `PingProcess`' `async public Task<PingResult> RunAsync(string hostNameOrAddress)` ❌✔
+2. Implement `PingProcess`' `async public Task<PingResult> RunAsync(string hostNameOrAddress)` ✔
    - First implement the `public void RunAsync_UsingTaskReturn_Success()` test method to test `PingProcess.RunAsync()` using `"localhost"` **without** using async/await. ✔
    - Also implement the `async public Task RunAsync_UsingTpl_Success()` test method to test `PingProcess.RunAsync()` using `"localhost"` but this time **DO** using async/await. ✔
 3. Add support for an optional cancellation token to the `PingProcess.RunAsync()` signature. ❌✔
