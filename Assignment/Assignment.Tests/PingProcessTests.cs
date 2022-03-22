@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Runtime.ExceptionServices;
+using System.Threading;
 
 namespace Assignment.Tests;
 
@@ -55,7 +56,7 @@ public class PingProcessTests
         AssertValidPingOutput(result);
     }
 
-    [TestMethod]
+    [TestMethod] //Test for 1
     public void RunTaskAsync_Success()
     {
         // Do NOT use async/await in this test.
@@ -64,7 +65,7 @@ public class PingProcessTests
         AssertValidPingOutput(task.Result);
     }
 
-    [TestMethod]
+    [TestMethod] //Test for 2
     public void RunAsync_UsingTaskReturn_Success()
     {
         // Do NOT use async/await in this test.
@@ -75,7 +76,7 @@ public class PingProcessTests
         AssertValidPingOutput(result);
     }
 
-    [TestMethod]
+    [TestMethod] //Test for 2
     async public Task RunAsync_UsingTpl_Success()
     {
         // DO use async/await in this test.
@@ -88,7 +89,7 @@ public class PingProcessTests
     }
 
 
-    [TestMethod]
+    [TestMethod] //Test for 3
     [ExpectedException(typeof(AggregateException))]
     public void RunAsync_UsingTplWithCancellation_CatchAggregateExceptionWrapping()
     {
@@ -99,7 +100,7 @@ public class PingProcessTests
         AssertValidPingOutput(task.Result);
     }
 
-    [TestMethod]
+    [TestMethod] //Test for 3--> Checks inner exception
     [ExpectedException(typeof(TaskCanceledException))]
     public void RunAsync_UsingTplWithCancellation_CatchAggregateExceptionWrappingTaskCanceledException()
     {
@@ -115,13 +116,14 @@ public class PingProcessTests
         // Use exception.Flatten()
     }
 
-    [TestMethod]
+    [TestMethod] //Test for 4
     async public Task RunAsync_MultipleHostAddresses_True()
     {
         // Pseudo Code - don't trust it!!!
         string[] hostNames = new string[] { "localhost", "localhost", "localhost", "localhost" };
-        int expectedLineCount = PingOutputLikeExpression.Split(Environment.NewLine).Length*hostNames.Length;
-        PingResult result = await Sut.RunAsync(hostNames);
+        int expectedLineCount = PingOutputLikeExpression.Split(Environment.NewLine).Length*hostNames.Length + hostNames.Length * 2 + 1;
+        CancellationToken token = new CancellationTokenSource().Token;
+        PingResult result = await Sut.RunAsync(token, hostNames);
         int? lineCount = result.StdOutput?.Split(Environment.NewLine).Length;
         Assert.AreEqual(expectedLineCount, lineCount);
     }
