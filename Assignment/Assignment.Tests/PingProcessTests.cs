@@ -134,15 +134,9 @@ public class PingProcessTests
 #pragma warning disable CS1998 // Remove this
     async public Task RunLongRunningAsync_UsingTpl_Success()
     {
-        //PingResult result = default;
-        // Test Sut.RunLongRunningAsync("localhost");
-        //AssertValidPingOutput(result);
-       /* ProcessStartInfo processStartInfo = new();
-        processStartInfo.Arguments = "localhost";
-        PingResult result = await Sut.RunLongRunningAsync(processStartInfo, default, default, default);
-        Console.WriteLine(result.StdOutput);
-        AssertValidPingOutput(result);*/
-       throw new NotImplementedException();
+        PingResult result = await Sut.RunLongRunningAsync("localhost")
+                           .ConfigureAwait(false);
+        AssertValidPingOutput(result);
     }
 #pragma warning restore CS1998 // Remove this
 

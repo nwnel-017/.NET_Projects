@@ -63,42 +63,39 @@ Also implement the async public Task RunAsync_UsingTpl_Success() test method to 
     async public Task<PingResult> RunAsync(IEnumerable<string> hostNameOrAddresses, CancellationToken cancellationToken = default)
     {
         StringBuilder stringBuilder = new();
+        int total = 0;
         //This query runs in parallel-> for each string in hostNameOrAddresses, it runs a new task to ping the item
         ParallelQuery<Task<PingResult>>? all = hostNameOrAddresses.AsParallel().Select(async item =>
         {
-            //Task<PingResult> task = null!;
-            // ...
+           
             Task<PingResult> task = Task.Run(
                 () => Run(item), cancellationToken
             );
 
             await task.WaitAsync(default(CancellationToken)); //waits for the task to finish with using default cancellation token
-            //return task.Result.ExitCode;
             return task.Result; //returns the result of the ping
         });
 
-        //await Task.WhenAll(all); //waits for the parallel query to finish pinging each string in hostnameOrAddress array
-        //int total = all.Aggregate(0, (total, item) => total + item.Result);
-
         await Task.WhenAll(all);
 
-        //all.Aggregate(stringBuilder, (a, item) => stringBuilder.Append(item.Result.StdOutput));
-        int total = all.Aggregate(0, (total, item) => total + item.Result.ExitCode);
+        total = all.Aggregate(0, (total, item) => total + item.Result.ExitCode);
         stringBuilder.Append(all.Aggregate("", (string1, string2) =>
         string1.Trim() + string2.Result.StdOutput));
         return new PingResult(total, stringBuilder?.ToString().Trim());
     }
-    //5
-    async public Task<PingResult> RunLongRunningAsync(
-        string hostNameOrAddress, CancellationToken cancellationToken = default)
+    //5-->
+    //Implement AND test public
+    //Task<int> RunLongRunningAsync(ProcessStartInfo startInfo,
+    //Action<string?>? progressOutput, Action<string?>? progressError, CancellationToken token) using Task.Factory.
+    //StartNew() and invoking RunProcessInternal with a TaskCreation value of TaskCreationOptions.
+    //LongRunning and a TaskScheduler value of TaskScheduler.Current. Returning a Task<PingResult> is also okay.
+    //NOTE: This method does NOT use Task.Run
+    async public Task<PingResult> RunLongRunningAsync(string hostNameOrAddress, CancellationToken cancellationToken = default)
     {
-        /* Task task = null!;
-         await task;
-         throw new NotImplementedException();*/
-        Task<PingResult> task = Task.Factory.StartNew(
-             () => Run(hostNameOrAddress), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
-        await task;
-        return task.Result;
+        return await Task.Factory.StartNew(
+            () => Run(hostNameOrAddress), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current
+        );
+        //Im not sure if I did this right
     }
 
     private Process RunProcessInternal(
