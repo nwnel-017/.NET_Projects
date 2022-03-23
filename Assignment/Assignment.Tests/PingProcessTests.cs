@@ -121,9 +121,11 @@ public class PingProcessTests
     {
         // Pseudo Code - don't trust it!!!
         string[] hostNames = new string[] { "localhost", "localhost", "localhost", "localhost" };
-        int expectedLineCount = PingOutputLikeExpression.Split(Environment.NewLine).Length*hostNames.Length + hostNames.Length * 2 + 1;
+        int expectedLineCount = PingOutputLikeExpression.Split(Environment.NewLine).Length*hostNames.Length;
         CancellationToken token = new CancellationTokenSource().Token;
-        PingResult result = await Sut.RunAsync(token, hostNames);
+        //PingResult result = await Sut.RunAsync(token, hostNames);
+        PingResult result = await Sut.RunAsync(hostNames);
+        Console.WriteLine(result.StdOutput);
         int? lineCount = result.StdOutput?.Split(Environment.NewLine).Length;
         Assert.AreEqual(expectedLineCount, lineCount);
     }
@@ -132,9 +134,15 @@ public class PingProcessTests
 #pragma warning disable CS1998 // Remove this
     async public Task RunLongRunningAsync_UsingTpl_Success()
     {
-        PingResult result = default;
+        //PingResult result = default;
         // Test Sut.RunLongRunningAsync("localhost");
-        AssertValidPingOutput(result);
+        //AssertValidPingOutput(result);
+       /* ProcessStartInfo processStartInfo = new();
+        processStartInfo.Arguments = "localhost";
+        PingResult result = await Sut.RunLongRunningAsync(processStartInfo, default, default, default);
+        Console.WriteLine(result.StdOutput);
+        AssertValidPingOutput(result);*/
+       throw new NotImplementedException();
     }
 #pragma warning restore CS1998 // Remove this
 

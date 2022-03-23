@@ -55,41 +55,50 @@ Also implement the async public Task RunAsync_UsingTpl_Success() test method to 
         PingResult pingResult = result.Result;
         return pingResult;
     }
-/*4---> Complete/fix AND test async public Task<PingResult> RunAsync(IEnumerable<string> hostNameOrAddresses, CancellationToken cancellationToken = default) 
- which executes ping for and array of hostNameOrAddresses (which can all be "localhost") in parallel, adding synchronization if needed. ❌✔ 
-NOTE:
-The order of the items in the stdOutput is irrelevent and expected to be intermingled.
-StdOutput must have all the ping output returned (no lines can be missing) even though intermingled. ❌✔ */
-    async public Task<PingResult> RunAsync(CancellationToken cancellationToken = default, params string[] hostNameOrAddresses)
+    /*4---> Complete/fix AND test async public Task<PingResult> RunAsync(IEnumerable<string> hostNameOrAddresses, CancellationToken cancellationToken = default) 
+     which executes ping for and array of hostNameOrAddresses (which can all be "localhost") in parallel, adding synchronization if needed. ❌✔ 
+    NOTE:
+    The order of the items in the stdOutput is irrelevent and expected to be intermingled.
+    StdOutput must have all the ping output returned (no lines can be missing) even though intermingled. ❌✔ */
+    async public Task<PingResult> RunAsync(IEnumerable<string> hostNameOrAddresses, CancellationToken cancellationToken = default)
     {
         StringBuilder stringBuilder = new();
         //This query runs in parallel-> for each string in hostNameOrAddresses, it runs a new task to ping the item
-        ParallelQuery<Task<int>>? all = hostNameOrAddresses.AsParallel().Select(async item =>
+        ParallelQuery<Task<PingResult>>? all = hostNameOrAddresses.AsParallel().Select(async item =>
         {
             //Task<PingResult> task = null!;
             // ...
             Task<PingResult> task = Task.Run(
-                () => RunAsync(item)
+                () => Run(item), cancellationToken
             );
 
             await task.WaitAsync(default(CancellationToken)); //waits for the task to finish with using default cancellation token
-            return task.Result.ExitCode;
-/*            return task.Result; //returns the result of the ping
-*/        });
+            //return task.Result.ExitCode;
+            return task.Result; //returns the result of the ping
+        });
 
-        await Task.WhenAll(all); //waits for the parallel query to finish pinging each string in hostnameOrAddress array
-        int total = all.Aggregate(0, (total, item) => total + item.Result);
-        /*all.Aggregate(stringBuilder, (a, item) => stringBuilder.Append(item.Result.StdOutput));
-        int total = all.Aggregate(0, (total, item) => total + item.Result.ExitCode);*/
-        return new PingResult(total, stringBuilder?.ToString());
+        //await Task.WhenAll(all); //waits for the parallel query to finish pinging each string in hostnameOrAddress array
+        //int total = all.Aggregate(0, (total, item) => total + item.Result);
+
+        await Task.WhenAll(all);
+
+        //all.Aggregate(stringBuilder, (a, item) => stringBuilder.Append(item.Result.StdOutput));
+        int total = all.Aggregate(0, (total, item) => total + item.Result.ExitCode);
+        stringBuilder.Append(all.Aggregate("", (string1, string2) =>
+        string1.Trim() + string2.Result.StdOutput));
+        return new PingResult(total, stringBuilder?.ToString().Trim());
     }
-
+    //5
     async public Task<PingResult> RunLongRunningAsync(
         string hostNameOrAddress, CancellationToken cancellationToken = default)
     {
-        Task task = null!;
+        /* Task task = null!;
+         await task;
+         throw new NotImplementedException();*/
+        Task<PingResult> task = Task.Factory.StartNew(
+             () => Run(hostNameOrAddress), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
         await task;
-        throw new NotImplementedException();
+        return task.Result;
     }
 
     private Process RunProcessInternal(
