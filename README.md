@@ -50,9 +50,9 @@ Previously Assigned
 ## Fundamentals
 
 - Ensure you enable:
-  - nullable reference types is enabled ❌✔
-  - net6 targeted ❌✔
-  - C# 10.0 ❌✔
-  - and enabled .NET analyzers for both projects ❌✔
-- All of the above should be unit tested ❌✔
-- Choose simplicity over complexity ❌✔
+  - nullable reference types is enabled ✔
+  - net6 targeted ✔
+  - C# 10.0 ✔
+  - and enabled .NET analyzers for both projects ✔
+- All of the above should be unit tested ✔
+- Choose simplicity over complexity ✔
