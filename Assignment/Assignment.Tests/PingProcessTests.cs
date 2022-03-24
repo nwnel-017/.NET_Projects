@@ -59,8 +59,6 @@ public class PingProcessTests
     [TestMethod] //Test for 1
     public void RunTaskAsync_Success()
     {
-        // Do NOT use async/await in this test.
-        // Test Sut.RunTaskAsync("localhost");
         Task<PingResult> task = Sut.RunTaskAsync("localhost");
         AssertValidPingOutput(task.Result);
     }
@@ -68,9 +66,7 @@ public class PingProcessTests
     [TestMethod] //Test for 2
     public void RunAsync_UsingTaskReturn_Success()
     {
-        // Do NOT use async/await in this test.
         PingResult result = default;
-        // Test Sut.RunAsync("localhost");
         Task<PingResult> task = Sut.RunAsync("localhost");
         result = task.Result;
         AssertValidPingOutput(result);
@@ -113,17 +109,14 @@ public class PingProcessTests
             AggregateException taskCanceledException = ex.Flatten();
             throw taskCanceledException.InnerException!;
         }
-        // Use exception.Flatten()
     }
 
     [TestMethod] //Test for 4
     async public Task RunAsync_MultipleHostAddresses_True()
     {
-        // Pseudo Code - don't trust it!!!
         string[] hostNames = new string[] { "localhost", "localhost", "localhost", "localhost" };
         int expectedLineCount = PingOutputLikeExpression.Split(Environment.NewLine).Length*hostNames.Length;
         CancellationToken token = new CancellationTokenSource().Token;
-        //PingResult result = await Sut.RunAsync(token, hostNames);
         PingResult result = await Sut.RunAsync(hostNames);
         Console.WriteLine(result.StdOutput);
         int? lineCount = result.StdOutput?.Split(Environment.NewLine).Length;
@@ -131,14 +124,12 @@ public class PingProcessTests
     }
 
     [TestMethod]
-#pragma warning disable CS1998 // Remove this
     async public Task RunLongRunningAsync_UsingTpl_Success()
     {
         PingResult result = await Sut.RunLongRunningAsync("localhost")
                            .ConfigureAwait(false);
         AssertValidPingOutput(result);
     }
-#pragma warning restore CS1998 // Remove this
 
     [TestMethod]
     public void StringBuilderAppendLine_InParallel_IsNotThreadSafe()

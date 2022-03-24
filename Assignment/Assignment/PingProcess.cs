@@ -24,9 +24,7 @@ public class PingProcess
         Process process = RunProcessInternal(StartInfo, updateStdOutput, default, default);
         return new PingResult( process.ExitCode, stringBuilder?.ToString());
     }
-/*1---> Implement PingProcess' public Task<PingResult> RunTaskAsync(string hostNameOrAddress) ✔
-First implement public void RunTaskAsync_Success() test method to test PingProcess.RunTaskAsync() using "localhost".
-Do NOT use async/await in this implementation. ✔ */
+    //1
     public Task<PingResult> RunTaskAsync(string hostNameOrAddress)
     {
         return Task.Run(
@@ -34,16 +32,7 @@ Do NOT use async/await in this implementation. ✔ */
                 Run(hostNameOrAddress)
             );
     }
-/*2---> Implement PingProcess' async public Task<PingResult> RunAsync(string hostNameOrAddress) ✔
-First implement the public void RunAsync_UsingTaskReturn_Success() test method to test PingProcess.RunAsync() using "localhost" without using async/await. ✔
-Also implement the async public Task RunAsync_UsingTpl_Success() test method to test PingProcess.RunAsync() using "localhost" but this time DO using async/await. ✔ */
-/*3---> Add support for an optional cancellation token to the PingProcess.RunAsync() signature. ✔ 
- 
- * Inside the PingProcess.RunAsync() invoke the token's ThrowIfCancellationRequested() method so an exception is thrown. ✔ 
- * Test that, when cancelled from the test method, the exception thrown is an AggregateException ✔ 
- * with a TaskCanceledException inner exception ✔ using the test methods RunAsync_UsingTplWithCancellation_CatchAggregateExceptionWrapping ✔
- * and RunAsync_UsingTplWithCancellation_CatchAggregateExceptionWrappingTaskCanceledException ✔ 
- * respectively.*/
+    //2 & 3
     async public Task<PingResult> RunAsync(
         string hostNameOrAddress, CancellationToken cancellationToken = default)
     {
@@ -55,11 +44,7 @@ Also implement the async public Task RunAsync_UsingTpl_Success() test method to 
         PingResult pingResult = result.Result;
         return pingResult;
     }
-    /*4---> Complete/fix AND test async public Task<PingResult> RunAsync(IEnumerable<string> hostNameOrAddresses, CancellationToken cancellationToken = default) 
-     which executes ping for and array of hostNameOrAddresses (which can all be "localhost") in parallel, adding synchronization if needed. ❌✔ 
-    NOTE:
-    The order of the items in the stdOutput is irrelevent and expected to be intermingled.
-    StdOutput must have all the ping output returned (no lines can be missing) even though intermingled. ❌✔ */
+    //4
     async public Task<PingResult> RunAsync(IEnumerable<string> hostNameOrAddresses, CancellationToken cancellationToken = default)
     {
         StringBuilder stringBuilder = new();
@@ -83,19 +68,12 @@ Also implement the async public Task RunAsync_UsingTpl_Success() test method to 
         string1.Trim() + string2.Result.StdOutput));
         return new PingResult(total, stringBuilder?.ToString().Trim());
     }
-    //5-->
-    //Implement AND test public
-    //Task<int> RunLongRunningAsync(ProcessStartInfo startInfo,
-    //Action<string?>? progressOutput, Action<string?>? progressError, CancellationToken token) using Task.Factory.
-    //StartNew() and invoking RunProcessInternal with a TaskCreation value of TaskCreationOptions.
-    //LongRunning and a TaskScheduler value of TaskScheduler.Current. Returning a Task<PingResult> is also okay.
-    //NOTE: This method does NOT use Task.Run
+    //5
     async public Task<PingResult> RunLongRunningAsync(string hostNameOrAddress, CancellationToken cancellationToken = default)
     {
         return await Task.Factory.StartNew(
             () => Run(hostNameOrAddress), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current
         );
-        //Im not sure if I did this right
     }
 
     private Process RunProcessInternal(
