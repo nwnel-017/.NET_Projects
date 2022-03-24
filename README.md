@@ -41,7 +41,7 @@ Previously Assigned
       - The order of the items in the stdOutput is irrelevent and expected to be intermingled.
       - StdOutput must have all the ping output returned (no lines can be missing) even though intermingled. ✔
 5. Implement **AND test** `public Task<int> RunLongRunningAsync(ProcessStartInfo startInfo, Action<string?>? progressOutput, Action<string?>? progressError, CancellationToken token)` using `Task.Factory.StartNew()` and invoking `RunProcessInternal` with a `TaskCreation` value of `TaskCreationOptions.LongRunning` and a `TaskScheduler` value of `TaskScheduler.Current`. Returning a `Task<PingResult>` is also okay.
-   NOTE: This method does **NOT** use `Task.Run`.❌✔
+   NOTE: This method does **NOT** use `Task.Run`.✔
 
 ## Extra Credit
 
@@ -50,9 +50,9 @@ Previously Assigned
 ## Fundamentals
 
 - Ensure you enable:
-  - nullable reference types is enabled ❌✔
-  - net6 targeted ❌✔
-  - C# 10.0 ❌✔
-  - and enabled .NET analyzers for both projects ❌✔
-- All of the above should be unit tested ❌✔
-- Choose simplicity over complexity ❌✔
+  - nullable reference types is enabled ✔
+  - net6 targeted ✔
+  - C# 10.0 ✔
+  - and enabled .NET analyzers for both projects ✔
+- All of the above should be unit tested ✔
+- Choose simplicity over complexity ✔
